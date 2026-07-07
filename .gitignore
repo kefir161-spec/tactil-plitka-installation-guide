@@ -1,0 +1,16 @@
+node_modules
+dist
+odt_extract
+source.zip
+content_extracted.xml
+extracted_text.txt
+*.odt
+*.pdf
+*.local
+*.zip
+scripts/pdf-preview-*.png
+_forbo.html
+_hp.html
+_sensor_tech.html
+_instruction_raw.xml
+_instruction_text.txt

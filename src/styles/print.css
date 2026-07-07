@@ -1,0 +1,944 @@
+@page {
+  size: A4;
+  margin: 8mm;
+}
+
+@media print {
+  *,
+  *::before,
+  *::after {
+    print-color-adjust: exact;
+    -webkit-print-color-adjust: exact;
+    box-shadow: none !important;
+  }
+
+  html {
+    /* Единый масштаб: пропорции лендинга без точечного сжатия шрифтов и иконок */
+    zoom: 0.45;
+  }
+
+  html,
+  body {
+    width: auto;
+    min-width: 0;
+    margin: 0;
+    overflow: visible !important;
+    background: #fff;
+    font-family: var(--font-family);
+    font-size: var(--font-size-base);
+    line-height: var(--line-height);
+    color: var(--color-text);
+  }
+
+  body {
+    orphans: 3;
+    widows: 3;
+  }
+
+  .print-only {
+    display: block;
+  }
+
+  .contacts-list__row.print-only {
+    display: grid;
+  }
+
+  .app {
+    background: #fff;
+    min-height: 0;
+    overflow: visible !important;
+  }
+
+  .container {
+    max-width: none;
+    padding: 0 !important;
+  }
+
+  /* Лист PDF: заполняет страницу, разрыв после листа.
+     min-height делится на zoom (0.45), т.к. внутри zoom-контекста
+     единицы мм тоже масштабируются — иначе лист занимает лишь ~45% страницы. */
+  .print-sheet {
+    display: flex;
+    flex-direction: column;
+    min-height: calc((297mm - 16mm) / 0.45);
+    break-after: page;
+    page-break-after: always;
+  }
+
+  .print-sheet:last-child {
+    break-after: auto;
+    page-break-after: auto;
+  }
+
+  .print-sheet .section {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    padding: var(--space-md) 0 !important;
+    break-inside: auto;
+    page-break-inside: auto;
+    background: transparent !important;
+  }
+
+  .print-sheet .section:first-child {
+    padding-top: 0 !important;
+  }
+
+  .print-sheet .section:last-child {
+    padding-bottom: 0 !important;
+  }
+
+  .print-sheet .section > .container {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .section--muted {
+    background: var(--color-bg-muted) !important;
+  }
+
+  .section__heading,
+  .section__lead,
+  h1,
+  h2,
+  h3,
+  h4,
+  .intro__panel-title,
+  .maintenance-block__title {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  p {
+    max-width: none !important;
+  }
+
+  a {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  a[href^='http']::after {
+    content: none;
+  }
+
+  .card {
+    overflow: visible;
+  }
+
+  .info-card,
+  .flow-stepper__item,
+  .base-compare__item,
+  .maintenance-task,
+  .ppe-card,
+  .contacts-card,
+  .final-checklist,
+  .image-block,
+  .tool-table__row,
+  .req-table tr,
+  .spec-table tr,
+  .thickness-table tr,
+  .maintenance-cleaners tr,
+  .step-card-item {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .spec-table-wrap,
+  .req-table-wrap,
+  .tool-table-wrap,
+  .thickness-table-wrap,
+  .maintenance-cleaners-wrap {
+    overflow: visible !important;
+    width: 100%;
+  }
+
+  table {
+    width: 100% !important;
+    max-width: 100%;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  tr {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  /* Обложка + введение */
+  .print-sheet--1 .cover {
+    flex: 0 0 auto;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    min-height: 0 !important;
+    max-height: none;
+    padding: 0 0 var(--space-md) !important;
+    break-after: avoid;
+    page-break-after: avoid;
+    overflow: hidden;
+    color: #fff;
+  }
+
+  .cover {
+    position: relative;
+    display: flex;
+    align-items: flex-end;
+    min-height: 0 !important;
+    padding: 0 0 var(--space-md) !important;
+  }
+
+  .cover__bg,
+  .cover__overlay {
+    position: absolute;
+    inset: 0;
+  }
+
+  .cover__bg {
+    z-index: 0;
+    background: #141414;
+  }
+
+  .cover__bg img {
+    width: 100%;
+    height: 100%;
+    max-width: none;
+    min-width: 100%;
+    min-height: 100%;
+    object-fit: cover;
+    object-position: center 72%;
+  }
+
+  .cover__overlay {
+    background: linear-gradient(180deg, rgba(17, 17, 17, 0.42) 0%, rgba(17, 17, 17, 0.9) 100%);
+  }
+
+  .cover__content {
+    position: relative;
+    z-index: 1;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    min-height: 0;
+  }
+
+  .cover__title {
+    color: #fff;
+  }
+
+  .cover__badge {
+    margin: var(--space-md) 0 0;
+    font-size: 0.8125rem;
+  }
+
+  .section:has(#intro) {
+    padding-top: 0 !important;
+  }
+
+  .print-sheet--1 .intro {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .print-sheet--1 .intro__bottom {
+    flex: 1 1 auto;
+    grid-template-columns: minmax(0, 1fr) minmax(14rem, 17rem);
+    grid-auto-rows: 1fr;
+    align-items: stretch;
+    gap: var(--space-md);
+  }
+
+  .print-sheet--1 .intro__panel--flow {
+    flex: 0 0 auto;
+  }
+
+  /* Блок толщин и панель параметров заполняют низ листа */
+  .print-sheet--1 .intro__thickness {
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-md) var(--space-lg);
+    box-shadow: none;
+  }
+
+  .print-sheet--1 .thickness-table-wrap {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .print-sheet--1 .thickness-table {
+    flex: 1 1 auto;
+    height: 100%;
+  }
+
+  .print-sheet--1 .thickness-table tbody th,
+  .print-sheet--1 .thickness-table tbody td {
+    vertical-align: middle;
+  }
+
+  .print-sheet--1 .intro__panel--specs {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .print-sheet--1 .intro__specs {
+    flex: 1 1 auto;
+    justify-content: space-between;
+  }
+
+  .print-sheet--1 .thickness-table {
+    font-size: 0.8125rem;
+  }
+
+  .print-sheet--1 .thickness-table th,
+  .print-sheet--1 .thickness-table td {
+    padding: 0.75rem 0.875rem;
+  }
+
+  .print-sheet--1 .thickness-table thead th {
+    font-size: 0.625rem;
+  }
+
+  .print-sheet--1 .intro__thickness-title {
+    font-size: 1rem;
+    margin-bottom: var(--space-md);
+  }
+
+  /* Лист 2 — материалы + требования к основанию */
+  .print-sheet--2 .section:has(> #materials) {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .print-sheet--2 .section:has(> #floor-req) {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .print-sheet--2 #materials > .container {
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .print-sheet--2 #materials .specs-layout {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .print-sheet--2 #floor-req {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .print-sheet--2 #floor-req .req-table-wrap {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 0;
+  }
+
+  .print-sheet--2 #floor-req .req-table {
+    flex: 1 1 auto;
+    height: 100%;
+  }
+
+  .print-sheet--2 .specs-layout {
+    flex: 1 1 auto;
+    align-items: stretch;
+    min-height: 0;
+  }
+
+  .print-sheet--2 .specs-layout > * {
+    height: 100%;
+    min-height: 0;
+  }
+
+  .print-sheet--2 .specs-layout .spec-table-wrap {
+    margin-bottom: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .print-sheet--2 .specs-layout .spec-table {
+    flex: 1 1 auto;
+    height: 100%;
+  }
+
+  .print-sheet--2 .specs-layout .spec-table th,
+  .print-sheet--2 .specs-layout .spec-table td {
+    vertical-align: middle;
+  }
+
+  .print-sheet--2 .specs-visual {
+    container-type: size;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: var(--space-md);
+  }
+
+  .print-sheet--2 .specs-visual .tile-visual {
+    width: 100%;
+    height: 100%;
+    max-height: 100%;
+    flex: 1 1 auto;
+    min-height: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin: 0;
+  }
+
+  .print-sheet--2 .specs-visual .tile-visual__frame {
+    width: min(100cqw, 100cqh);
+    max-width: 100%;
+    max-height: 100%;
+    height: auto;
+    margin: 0 auto;
+  }
+
+  .print-sheet--2 .specs-visual .tile-visual__photo {
+    object-fit: contain;
+    max-height: 100%;
+  }
+
+  .print-sheet--2 #floor-req .req-table th,
+  .print-sheet--2 #floor-req .req-table td {
+    vertical-align: middle;
+  }
+
+  /* Лист 3 — подготовка основания (4 этапа) */
+  .print-sheet--3 .section:has(> #prep) {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .print-sheet--3 #prep {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .print-sheet--3 .step-cards-grid {
+    display: grid !important;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: var(--space-lg) !important;
+    flex: 1 1 auto;
+    min-height: 0;
+    align-items: stretch;
+    grid-auto-rows: 1fr;
+  }
+
+  .print-sheet--3 .step-card-item {
+    display: flex !important;
+    flex-direction: column;
+    height: 100%;
+  }
+
+  .print-sheet--3 .step-card-item__image {
+    margin-top: auto;
+    flex: 1 1 0;
+    display: flex !important;
+    flex-direction: column;
+    min-height: 9rem;
+  }
+
+  .print-sheet--3 .step-card-item__image img {
+    width: 100%;
+    flex: 1 1 auto;
+    min-height: 9rem;
+    object-fit: cover;
+  }
+
+  /* Лист 4 — грунтовки и клеи */
+  .print-sheet--4 .section:has(> #products) {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .print-sheet--4 #products > .container {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .print-sheet--4 .adhesive-catalog {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    gap: 0.75rem;
+    min-height: 0;
+  }
+
+  .print-sheet--4 .products-catalog__group {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+  }
+
+  .print-sheet--4 .products-catalog__group + .products-catalog__group {
+    margin-top: 0;
+  }
+
+  .print-sheet--4 .products-grid {
+    flex: 1 1 auto;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 0.65rem;
+    align-content: stretch;
+  }
+
+  .print-sheet--4 .products-grid__title {
+    font-size: 0.95rem;
+    margin: 0 0 0.4rem;
+  }
+
+  .print-sheet--4 .product-card.adhesive-product {
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+    padding: 0.65rem 0.75rem;
+    break-inside: avoid;
+    box-shadow: none;
+  }
+
+  .print-sheet--4 .product-card__image {
+    flex: 1 1 auto;
+    height: auto;
+    min-height: 5.5rem;
+    max-height: 7.5rem;
+    padding: 0.35rem;
+  }
+
+  .print-sheet--4 .product-card__image img {
+    width: auto;
+    height: auto;
+    max-width: 100%;
+    max-height: 100%;
+    object-fit: contain;
+  }
+
+  .print-sheet--4 .product-card__title {
+    margin: 0.4rem 0 0.2rem;
+    font-size: 0.8rem;
+  }
+
+  .print-sheet--4 .product-card__subtitle {
+    margin-bottom: 0.35rem;
+    font-size: 0.68rem;
+  }
+
+  .print-sheet--4 .spec-row {
+    grid-template-columns: 84px 1fr;
+    gap: 0.35rem;
+    padding: 0.22rem 0;
+  }
+
+  .print-sheet--4 .spec-label,
+  .print-sheet--4 .spec-value {
+    font-size: 0.64rem;
+  }
+
+  .print-sheet--4 .product-card__body {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .print-sheet--4 .product-card__specs {
+    flex: 1 1 auto;
+  }
+
+  .print-sheet--4 .product-card__note {
+    margin-top: 0.35rem;
+    padding-top: 0.35rem;
+    font-size: 0.62rem;
+  }
+
+  /* Лист 5 — укладка (5 этапов) */
+  .print-sheet--5 .section:has(> #install) {
+    flex: 1 1 auto;
+    min-height: 0;
+    padding: var(--space-sm) 0 !important;
+  }
+
+  .print-sheet--5 #install {
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .print-sheet--5 .section__heading {
+    flex: 0 0 auto;
+    margin-bottom: var(--space-md);
+  }
+
+  .print-sheet--5 .step-cards-grid {
+    display: grid !important;
+    flex: 1 1 auto;
+    min-height: 0;
+    grid-template-columns: repeat(2, minmax(0, 1fr)) !important;
+    gap: var(--space-md) !important;
+    grid-auto-rows: 1fr;
+    align-items: stretch;
+  }
+
+  .print-sheet--5 .step-card-item {
+    display: flex !important;
+    flex-direction: column;
+    height: 100%;
+    padding: var(--space-md) !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .print-sheet--5 .step-card-item h3 {
+    flex: 0 0 auto;
+    margin-top: var(--space-sm);
+  }
+
+  .print-sheet--5 .step-card-item p {
+    flex: 0 0 auto;
+    font-size: 0.85rem;
+    line-height: 1.45;
+  }
+
+  .print-sheet--5 .step-card-item__image {
+    margin-top: auto;
+    flex: 1 1 0;
+    min-height: 5.5rem;
+    display: flex !important;
+    flex-direction: column;
+  }
+
+  .print-sheet--5 .step-card-item__image img {
+    width: 100%;
+    flex: 1 1 auto;
+    min-height: 5.5rem;
+    object-fit: cover;
+  }
+
+  .print-sheet--5 .step-card-item:last-child {
+    grid-column: 1 / -1;
+    max-width: calc(50% - var(--space-md) / 2);
+    justify-self: center;
+  }
+
+  .print-sheet--5 .trowel-tkb {
+    flex: 0 0 auto;
+    margin: 0.35rem 0 0.25rem;
+  }
+
+  .print-sheet--5 .trowel-tkb__table {
+    font-size: 0.75rem;
+  }
+
+  /* Лист 6 — улица + безопасность */
+  .print-sheet--6 {
+    display: flex !important;
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+
+  .print-sheet--6 .section {
+    display: flex !important;
+    flex-direction: column;
+    min-height: 0 !important;
+    padding: 0 !important;
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .print-sheet--6 .section > .container {
+    display: flex !important;
+    flex-direction: column;
+    flex: 1 1 auto !important;
+    min-height: 0 !important;
+  }
+
+  .print-sheet--6 .section:has(> #outdoor) {
+    flex: 1.05 1 auto !important;
+  }
+
+  .print-sheet--6 .section:has(> #safety) {
+    flex: 0.95 1 auto !important;
+    border-top: 1px solid #e5e7eb;
+    padding-top: 0.65rem !important;
+  }
+
+  .print-sheet--6 .section__heading {
+    margin-bottom: 0.45rem;
+    font-size: 0.98rem;
+    line-height: 1.2;
+  }
+
+  .print-sheet--6 #outdoor .section__lead {
+    display: none;
+  }
+
+  .print-sheet--6 .outdoor-layout {
+    flex: 1 1 auto;
+    align-items: stretch;
+    min-height: 0;
+    gap: 0.75rem !important;
+  }
+
+  .print-sheet--6 .outdoor-layout > div:first-child {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 100%;
+    gap: 0.5rem;
+    padding: 0.75rem 0.85rem;
+    background: #f8fafc;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+  }
+
+  .print-sheet--6 .outdoor-layout > div:first-child p {
+    margin: 0;
+    font-size: 0.82rem;
+    line-height: 1.45;
+    color: #374151;
+  }
+
+  .print-sheet--6 .outdoor-timings {
+    margin-top: 0;
+    gap: 0.45rem !important;
+  }
+
+  .print-sheet--6 .outdoor-timings .card {
+    padding: 0.5rem 0.6rem !important;
+    background: #fff;
+    border: 1px solid #e5e7eb;
+    border-radius: 8px;
+    box-shadow: none;
+  }
+
+  .print-sheet--6 .outdoor-timings .card h3 {
+    margin: 0 0 0.15rem;
+    font-size: 0.78rem;
+    font-weight: 700;
+    color: #6b7280;
+    text-transform: uppercase;
+    letter-spacing: 0.03em;
+  }
+
+  .print-sheet--6 .outdoor-timings .card p {
+    margin: 0;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #111827;
+  }
+
+  .print-sheet--6 .outdoor-layout .image-block {
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    height: 100%;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    overflow: hidden;
+    background: #f8fafc;
+  }
+
+  .print-sheet--6 .outdoor-layout .image-block img {
+    flex: 1 1 auto;
+    width: 100%;
+    min-height: 9rem;
+    object-fit: cover;
+    object-position: center;
+  }
+
+  .print-sheet--6 #safety h3 {
+    margin: 0.1rem 0 0.25rem;
+    font-size: 0.82rem;
+    line-height: 1.25;
+    font-weight: 700;
+    color: #374151;
+  }
+
+  .print-sheet--6 #safety ul {
+    margin: 0 0 0.45rem;
+    padding-left: 1rem;
+    font-size: 0.78rem;
+    line-height: 1.4;
+    color: #4b5563;
+  }
+
+  .print-sheet--6 #safety ul li + li {
+    margin-top: 0.15rem;
+  }
+
+  .print-sheet--6 .ppe-grid {
+    flex: 0 0 auto;
+    align-content: start;
+    grid-template-columns: repeat(4, minmax(0, 1fr)) !important;
+    gap: 0.45rem !important;
+  }
+
+  .print-sheet--6 .ppe-grid .ppe-card {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start;
+    align-items: center;
+    height: auto;
+    padding: 0.55rem 0.45rem !important;
+    text-align: center;
+    border: 1px solid #e5e7eb;
+    border-radius: 10px;
+    background: #fff;
+    box-shadow: none;
+  }
+
+  .print-sheet--6 .ppe-card__icon {
+    width: 3.75rem;
+    height: 3.75rem;
+    margin: 0 auto;
+  }
+
+  .print-sheet--6 .ppe-grid .ppe-card p {
+    margin: 0.35rem 0 0;
+    font-size: 0.72rem;
+    line-height: 1.35;
+    color: #4b5563;
+  }
+
+  /* Лист 7 — контакты и чек-лист */
+  .print-sheet--7 .section {
+    flex: 1 1 auto;
+    padding: 0 !important;
+  }
+
+  .print-sheet--7 .section > .container {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    min-height: 0;
+  }
+
+  .print-sheet--7 .section__heading {
+    flex: 0 0 auto;
+    margin-bottom: 0.5rem;
+    font-size: 1rem;
+    line-height: 1.2;
+  }
+
+  .print-sheet--7 .final-section {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: stretch;
+    gap: 0.85rem;
+    padding: 0;
+    min-height: 0;
+  }
+
+  .print-sheet--7 .contacts-card {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    padding: 1.35rem 1.25rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: #fff;
+    box-shadow: none;
+  }
+
+  .print-sheet--7 .contacts-card__logo {
+    width: 200px;
+    margin: 0 auto 1rem;
+  }
+
+  .print-sheet--7 .contacts-list {
+    max-width: 34rem;
+    margin: 0 auto;
+  }
+
+  .print-sheet--7 .contacts-list__row {
+    padding: 0.5rem 0;
+  }
+
+  .print-sheet--7 .contacts-list dt {
+    font-size: 0.7rem;
+  }
+
+  .print-sheet--7 .contacts-list dd {
+    font-size: 0.88rem;
+  }
+
+  .print-sheet--7 .final-checklist {
+    flex: 1.1 1 auto;
+    display: flex;
+    flex-direction: column;
+    min-height: 0;
+    padding: 1.15rem 1.35rem;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    background: #f8fafc;
+    box-shadow: none;
+  }
+
+  .print-sheet--7 .checklist--compact {
+    display: flex;
+    flex-direction: column;
+    flex: 1 1 auto;
+    min-height: 0;
+  }
+
+  .print-sheet--7 .checklist--compact h3 {
+    flex: 0 0 auto;
+    margin: 0 0 0.65rem;
+    font-size: 0.95rem;
+    line-height: 1.25;
+  }
+
+  .print-sheet--7 .checklist--compact .checklist__list {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 0;
+  }
+
+  .print-sheet--7 .checklist--compact .checklist__list li {
+    margin-bottom: 0;
+    font-size: 0.86rem;
+    line-height: 1.42;
+    color: #374151;
+  }
+
+  .print-sheet--7 .checklist--compact .checklist__box {
+    width: 0.9rem;
+    height: 0.9rem;
+    margin-top: 0.12rem;
+    border-color: #9ca3af;
+  }
+
+  .pdf-avoid-break {
+    break-inside: avoid;
+    page-break-inside: avoid;
+  }
+
+  .pdf-keep-with-next {
+    break-after: avoid;
+    page-break-after: avoid;
+  }
+
+  .pdf-page-break-before {
+    break-before: page;
+    page-break-before: always;
+  }
+}
