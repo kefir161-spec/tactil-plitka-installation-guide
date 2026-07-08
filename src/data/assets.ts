@@ -37,8 +37,8 @@ export const outdoorStepVisuals: Record<number, OutdoorStepVisual> = {
   3: {
     type: 'image',
     src: images.outdoorAdhesiveLaying,
-    alt: 'Нанесение клея и укладка ТПУ-плитки на уличном основании',
-    objectPosition: 'center 50%',
+    alt: 'Нанесение PU-клея шпателем A2 и укладка тонкой ТПУ-плитки 12 мм у входа в магазин',
+    objectPosition: 'center 42%',
   },
   4: {
     type: 'pressing',
