@@ -16,7 +16,37 @@ export const images = {
   installAdhesive: local('step-adhesive-apply.png'),
   installLaying: local('step-laying.png'),
   installWeight: local('step-weight-pressing.png'),
+  outdoorSurfacePriming: local('outdoor-surface-priming.png'),
+  outdoorAdhesiveLaying: local('outdoor-adhesive-laying.png'),
+  outdoorWeightPressing: local('outdoor-weight-pressing.png'),
 } as const;
+
+export type OutdoorStepVisual =
+  | { type: 'materials' }
+  | { type: 'image'; src: string; alt: string; objectPosition?: string }
+  | { type: 'pressing'; src: string; alt: string; objectPosition?: string };
+
+export const outdoorStepVisuals: Record<number, OutdoorStepVisual> = {
+  1: { type: 'materials' },
+  2: {
+    type: 'image',
+    src: images.outdoorSurfacePriming,
+    alt: 'Грунтование уличного основания валиком перед укладкой ТПУ-плитки',
+    objectPosition: 'center 45%',
+  },
+  3: {
+    type: 'image',
+    src: images.outdoorAdhesiveLaying,
+    alt: 'Нанесение клея и укладка ТПУ-плитки на уличном основании',
+    objectPosition: 'center 50%',
+  },
+  4: {
+    type: 'pressing',
+    src: images.outdoorWeightPressing,
+    alt: 'Прижим уличной тактильной плитки грузом под плёнкой',
+    objectPosition: 'center 40%',
+  },
+};
 
 export const contacts = {
   site: 'https://plastfactor.com/',

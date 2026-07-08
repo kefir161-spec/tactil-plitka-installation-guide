@@ -301,17 +301,92 @@ export const installSteps: InstallStep[] = [
   },
 ];
 
+export interface OutdoorStepTiming {
+  value: string;
+  label: string;
+}
+
+export interface OutdoorDifferenceBase {
+  id: string;
+  label: string;
+}
+
+export interface OutdoorDifferenceValue extends OutdoorDifferenceBase {
+  value: string;
+  note?: string;
+  items?: never;
+}
+
+export interface OutdoorDifferenceTimings extends OutdoorDifferenceBase {
+  value?: never;
+  note?: never;
+  items: readonly OutdoorStepTiming[];
+}
+
+export type OutdoorDifference = OutdoorDifferenceValue | OutdoorDifferenceTimings;
+
+export interface OutdoorInstallStep {
+  step: number;
+  title: string;
+  text: string;
+  reference?: string;
+  showTrowelA2?: boolean;
+  timings?: readonly OutdoorStepTiming[];
+}
+
 export const outdoor = {
   intro:
-    'При монтаже тактильной плитки вне помещений материал должен выдерживать атмосферные факторы: перепады температур, влажность, соль и реагенты, УФ-излучение.',
-  materialNote:
-    'Наиболее стойким к этим воздействиям является термополиуретан (ТПУ). Из этого материала рекомендовано ГОСТом изготавливать уличный вариант тактильной плитки.',
-  processNote:
-    'Процедура монтажа совпадает с укладкой в помещениях. Отличие — в подборе материалов, выдерживающих уличные условия, и увеличенных сроках прижима и высыхания.',
-  timings: [
-    { label: 'Прижим грузом', value: '12–24 часа' },
-    { label: 'Высыхание клея', value: 'До 3–5 суток (при низких температурах)' },
-  ],
+    'Уличный монтаж выполняется по той же базовой последовательности, что и укладка ПВХ-плитки в помещении, но требует ТПУ-плитки, составов для наружных работ и увеличенного времени выдержки.',
+  differences: [
+    {
+      id: 'material',
+      label: 'Материал',
+      value: 'ТПУ',
+      note: 'Материал для наружных условий: устойчив к атмосферным воздействиям, перепадам температуры, влаге и реагентам.',
+    },
+    {
+      id: 'compositions',
+      label: 'Составы',
+      value: 'Грунтовка + 2K PU-клей',
+      note: 'Homafloor 001 2K E; Homaprof 797 2K PU.',
+    },
+    {
+      id: 'timings',
+      label: 'Сроки',
+      items: [
+        { value: '12–24 ч', label: 'Прижим грузом' },
+        { value: 'до 3–5 суток', label: 'Высыхание клея при низких температурах' },
+      ],
+    },
+  ] satisfies readonly OutdoorDifference[],
+  steps: [
+    {
+      step: 1,
+      title: 'Подберите материалы для улицы',
+      text: 'Используйте тактильную плитку из ТПУ, грунтовку Homafloor 001 2K E и клей Homaprof 797 2K PU — составы для наружных условий.',
+    },
+    {
+      step: 2,
+      title: 'Подготовьте основание',
+      text: 'Очистите и подготовьте основание, затем выполните грунтование совместимым составом.',
+      reference: 'См. пункт 4',
+    },
+    {
+      step: 3,
+      title: 'Нанесите клей и уложите плитку',
+      text: 'Равномерно нанесите клей зубчатым шпателем A2 и уложите плитку в пределах рабочего времени клеевого состава.',
+      showTrowelA2: true,
+    },
+    {
+      step: 4,
+      title: 'Прижмите и выдержите',
+      text: 'После укладки выполните равномерный прижим грузом и выдержите необходимое время.',
+      timings: [
+        { value: '12–24 ч', label: 'Прижим грузом' },
+        { value: 'до 3–5 суток', label: 'Высыхание клея при низкой температуре' },
+      ],
+    },
+  ] satisfies readonly OutdoorInstallStep[],
 } as const;
 
 export const safety = {

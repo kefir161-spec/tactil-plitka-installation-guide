@@ -8,7 +8,7 @@ import { FloorRequirementsTable } from './components/FloorRequirementsTable';
 import { PrepStepsGrid } from './components/PrepStepsGrid';
 import { installStepsToCards, StepCardsGrid } from './components/StepCardsGrid';
 import { ProductsCatalog } from './components/ProductsGrid';
-import { ImageBlock } from './components/ImageBlock';
+import { OutdoorInstallationGuide } from './components/OutdoorInstallationGuide';
 import { TileVisual } from './components/TileVisual';
 import { PpeGrid } from './components/PpeGrid';
 import { ContactsSection } from './components/ContactsSection';
@@ -134,21 +134,10 @@ export default function App() {
           title={sections.outdoor.title}
           lead={outdoor.intro}
         >
-          <div className="grid grid--2 outdoor-layout">
-            <div>
-              <p>{outdoor.materialNote}</p>
-              <p>{outdoor.processNote}</p>
-              <div className="grid grid--2 outdoor-timings">
-                {outdoor.timings.map((item) => (
-                  <article key={item.label} className="card">
-                    <h3>{item.label}</h3>
-                    <p>{item.value}</p>
-                  </article>
-                ))}
-              </div>
-            </div>
-            <ImageBlock src={images.outdoorTpu} alt="Уличный монтаж тактильной плитки ТПУ" />
-          </div>
+          <OutdoorInstallationGuide
+            differences={outdoor.differences}
+            steps={outdoor.steps}
+          />
         </Section>
 
         <Section
