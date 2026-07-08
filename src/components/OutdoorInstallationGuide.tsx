@@ -85,7 +85,16 @@ export function OutdoorInstallationGuide({ differences, steps }: OutdoorInstalla
 
       <div className="grid grid--2 outdoor-steps">
         {steps.map((step) => (
-          <article key={step.step} className="card outdoor-step-card">
+          <article
+            key={step.step}
+            className={[
+              'card',
+              'outdoor-step-card',
+              step.step === 3 ? 'outdoor-step-card--portrait' : '',
+            ]
+              .filter(Boolean)
+              .join(' ')}
+          >
             <span className="badge badge--primary">Этап {step.step}</span>
             <h3 className="outdoor-step-card__title">{step.title}</h3>
             <p className="outdoor-step-card__text">{step.text}</p>

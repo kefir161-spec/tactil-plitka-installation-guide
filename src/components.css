@@ -1710,6 +1710,25 @@
   object-fit: contain;
 }
 
+.outdoor-materials-visual__frame--cover {
+  overflow: hidden;
+  border-radius: var(--radius-sm);
+}
+
+.outdoor-materials-visual__frame--cover img {
+  width: 100%;
+  height: 100%;
+  max-height: none;
+  min-height: 5rem;
+  object-fit: cover;
+}
+
+.outdoor-step-card--portrait .outdoor-step-card__image img {
+  height: 10.5rem;
+  min-height: 10.5rem;
+  object-position: 50% 88%;
+}
+
 .outdoor-materials-visual__item figcaption {
   margin: 0;
   font-size: 0.6875rem;
