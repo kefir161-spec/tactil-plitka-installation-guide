@@ -1721,10 +1721,11 @@
 
 /* Curing timeline */
 .outdoor-curing-timeline {
-  display: flex;
-  flex-wrap: wrap;
+  display: grid;
+  grid-template-columns: auto auto 1fr auto 1fr;
   align-items: center;
-  gap: 0.35rem 0.5rem;
+  width: 100%;
+  gap: 0.25rem 0.5rem;
   padding: 0.5rem 0.65rem;
   background: var(--color-bg-muted);
   border: 1px solid var(--color-border);
@@ -1732,9 +1733,7 @@
 }
 
 .outdoor-curing-timeline__segment {
-  display: flex;
-  align-items: center;
-  gap: 0.5rem;
+  display: contents;
 }
 
 .outdoor-curing-timeline__arrow {
