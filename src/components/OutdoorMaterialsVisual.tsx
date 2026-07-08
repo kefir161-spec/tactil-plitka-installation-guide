@@ -6,23 +6,20 @@ const outdoorAdhesive = adhesives.find((a) => a.id === 'homaprof-797');
 
 const items = [
   {
-    src: images.outdoorTpu,
-    alt: 'Тонкая жёлтая ТПУ-плитка для уличного монтажа',
+    src: images.tactileTile,
+    alt: 'Тактильная плитка из ТПУ для уличного монтажа',
     label: 'ТПУ-плитка',
-    cover: true,
-    objectPosition: 'center 58%',
+    blend: true,
   },
   {
     src: outdoorPrimer?.image ?? '',
     alt: outdoorPrimer?.name ?? 'Homafloor 001 2K E',
     label: 'Грунтовка',
-    cover: false,
   },
   {
     src: outdoorAdhesive?.image ?? '',
     alt: outdoorAdhesive?.name ?? 'Homaprof 797 2K PU',
     label: '2K PU-клей',
-    cover: false,
   },
 ];
 
@@ -34,18 +31,12 @@ export function OutdoorMaterialsVisual() {
           <div
             className={[
               'outdoor-materials-visual__frame',
-              item.cover ? 'outdoor-materials-visual__frame--cover' : '',
+              item.blend ? 'outdoor-materials-visual__frame--blend' : '',
             ]
               .filter(Boolean)
               .join(' ')}
           >
-            <img
-              src={item.src}
-              alt={item.alt}
-              loading="lazy"
-              decoding="async"
-              style={item.objectPosition ? { objectPosition: item.objectPosition } : undefined}
-            />
+            <img src={item.src} alt={item.alt} loading="lazy" decoding="async" />
           </div>
           <figcaption>{item.label}</figcaption>
         </figure>

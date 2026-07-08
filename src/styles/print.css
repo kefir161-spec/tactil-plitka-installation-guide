@@ -902,15 +902,8 @@
     font-size: 0.64rem;
   }
 
-  .print-sheet--6 .outdoor-step-card--portrait .outdoor-step-card__image img {
-    object-position: 50% 88% !important;
-  }
-
-  .print-sheet--6 .outdoor-materials-visual__frame--cover img {
-    width: 100%;
-    height: 100%;
-    max-height: none;
-    object-fit: cover;
+  .print-sheet--6 .outdoor-materials-visual__frame--blend {
+    background: #f8fafc;
   }
 
   .print-sheet--6 #safety h3 {
